@@ -74,12 +74,36 @@ class ViewController: UIViewController {
     }
     
     @IBAction func calcular(_ sender: UIButton) {
+        if  cantidadText.text != "" && porcentajeText.text != "" {
+            self.view.endEditing(true)
+            guard let cantidad = cantidadText.text else { return }
+            guard let porcentaje = porcentajeText.text else { return }
+            
+            let cantNum = (cantidad as NSString).floatValue
+            let porcNum = (porcentaje as NSString).floatValue
+            
+            let desc = cantNum * porcNum / 100
+            let totalFinal = cantNum - desc
+            
+            total.text = "$\(totalFinal)"
+            descuento.text = "$\(desc)"
+        } else {
+            let alert = UIAlertController(title: "alerta", message: "Los campos de cantidad y porcentaje no pueden ir vacios", preferredStyle: .alert)
+            let accion = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            alert.addAction(accion)
+            present(alert, animated: true, completion: nil )
+        }
+        
     }
     
     
     @IBAction func limpiar(_ sender: UIButton) {
+        self.view.endEditing(true)
+        total.text = "$0.00"
+        descuento.text = "$0.00"
+        cantidadText.text = " "
+        porcentajeText.text = " "
     }
-    
     
     
 }
